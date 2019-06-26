@@ -25,6 +25,8 @@ namespace BezettingsmonitorFtpUpload.api
         sftp.UploadFile(new MemoryStream(buffer), "flexwhere-meetings.csv", true);
         sftp.Disconnect();
       }
+
+      Console.WriteLine("Writing to sftp was successful.");
     }
   }
 }
