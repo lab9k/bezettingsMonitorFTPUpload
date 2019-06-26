@@ -53,7 +53,6 @@ namespace BezettingsmonitorFtpUpload.api
           initialCatalog = initialCatalog.Replace('"', ' ').Trim();
         }
 
-        Console.WriteLine($"{dataSource},{initialCatalog},{userId},{password}");
         var builder = new SqlConnectionStringBuilder
         {
           DataSource = dataSource,
