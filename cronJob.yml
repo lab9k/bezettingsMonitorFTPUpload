@@ -1,0 +1,28 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    app: bezetting-ftp-upload
+  name: bezetting-ftp-upload
+spec:
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    metadata:
+      annotations:
+        alpha.image.policy.openshift.io/resolve-names: '*'
+    spec:
+      template:
+        spec:
+          containers:
+            - env:
+              image: dotnet/dotnet-22-rhel7
+              imagePullPolicy: Always
+              name: dotnet/dotnet-22-rhel7
+          serviceAccountName: bezetting-ftp-upload
+          restartPolicy: Never
+  schedule: "*/5 * * * *"
+  startingDeadlineSeconds: 600
+  successfulJobsHistoryLimit: 3
+  suspend: false
