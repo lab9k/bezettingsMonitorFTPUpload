@@ -32,6 +32,7 @@ namespace BezettingsmonitorFtpUpload.api
         var password = Environment.GetEnvironmentVariable("INPUT_DB_PASSWORD");
         var initialCatalog = Environment.GetEnvironmentVariable("INPUT_DB_NAME");
 
+
         if (dataSource != null && dataSource.StartsWith("\"") && dataSource.EndsWith("\""))
         {
           dataSource = dataSource.Replace('"', ' ').Trim();
@@ -52,6 +53,7 @@ namespace BezettingsmonitorFtpUpload.api
           initialCatalog = initialCatalog.Replace('"', ' ').Trim();
         }
 
+        Console.WriteLine($"{dataSource},{initialCatalog},{userId},{password}");
         var builder = new SqlConnectionStringBuilder
         {
           DataSource = dataSource,
