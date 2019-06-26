@@ -12,7 +12,9 @@ namespace BezettingsmonitorFtpUpload.api
 
     public PlanonDataFetcher()
     {
-      this.Script = File.ReadAllLines("./queries/query.sql");
+      var path = Path.Combine(Directory.GetCurrentDirectory(), "queries/query.sql");
+      Console.WriteLine($"Reading query from: {path}");
+      this.Script = File.ReadAllLines(path);
     }
 
     public IEnumerable<string> Query()
