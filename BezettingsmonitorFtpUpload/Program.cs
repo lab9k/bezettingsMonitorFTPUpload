@@ -6,10 +6,6 @@ namespace BezettingsmonitorFtpUpload
   {
     static void Main(string[] args)
     {
-      while (true)
-      {
-      }
-
       var fetcher = new PlanonDataFetcher();
       var lines = fetcher.Query();
       FtpCsvWriter.WriteLines(lines);
