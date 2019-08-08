@@ -15,7 +15,8 @@ namespace BezettingsmonitorFtpUpload.api
       var password = Environment.GetEnvironmentVariable("FTP_PASSWORD");
 
       var connectionInfo =
-        new ConnectionInfo(host, port, username, new PasswordAuthenticationMethod(username, password));
+        new ConnectionInfo(host?.Trim(), port, username?.Trim(),
+          new PasswordAuthenticationMethod(username?.Trim(), password?.Trim()));
       using (var sftp = new SftpClient(connectionInfo)) {
         sftp.Connect();
         var text = string.Join("\n", lines);
