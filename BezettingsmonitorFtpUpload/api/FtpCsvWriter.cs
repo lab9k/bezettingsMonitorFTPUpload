@@ -8,17 +8,20 @@ namespace BezettingsmonitorFtpUpload.api
 {
   public static class FtpCsvWriter
   {
-    public static void WriteLines(IEnumerable<string> lines)
-    {
+    public static void WriteLines(IEnumerable<string> lines) {
       var host = Environment.GetEnvironmentVariable("FTP_HOST");
       var port = int.Parse(Environment.GetEnvironmentVariable("FTP_PORT"));
       var username = Environment.GetEnvironmentVariable("FTP_USERNAME");
       var password = Environment.GetEnvironmentVariable("FTP_PASSWORD");
 
+      Console.WriteLine(host);
+      Console.WriteLine(port);
+      Console.WriteLine(username);
+      Console.WriteLine(password);
+      
       var connectionInfo =
         new ConnectionInfo(host, port, username, new PasswordAuthenticationMethod(username, password));
-      using (var sftp = new SftpClient(connectionInfo))
-      {
+      using (var sftp = new SftpClient(connectionInfo)) {
         sftp.Connect();
         var text = string.Join("\n", lines);
         var buffer = Encoding.UTF8.GetBytes(text);

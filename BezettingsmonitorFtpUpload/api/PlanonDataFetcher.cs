@@ -10,53 +10,43 @@ namespace BezettingsmonitorFtpUpload.api
   {
     private string[] Script { get; }
 
-    public PlanonDataFetcher()
-    {
+    public PlanonDataFetcher() {
       var parent = Directory.GetParent(Directory.GetCurrentDirectory()).ToString();
       var path = Path.Combine(parent,
         "src/BezettingsmonitorFtpUpload/queries/query.sql");
       this.Script = File.ReadAllLines(path);
     }
 
-    public IEnumerable<string> Query()
-    {
-      var ret = new List<string>
-      {
+    public IEnumerable<string> Query() {
+      var ret = new List<string> {
         "MEETING_ROOM_ID;MEETING_TITLE;MEETING_DESCRIPTION;MEETING_CAPACITY;MEETING_ACTOR_ID;MEETING_START;MEETING_END;MEETING_CREATED;MEETING_MODIFIED;;"
       };
-      try
-      {
+      try {
         var dataSource = Environment.GetEnvironmentVariable("INPUT_DB_HOST");
         var userId = Environment.GetEnvironmentVariable("INPUT_DB_USER");
         var password = Environment.GetEnvironmentVariable("INPUT_DB_PASSWORD");
         var initialCatalog = Environment.GetEnvironmentVariable("INPUT_DB_NAME");
 
-        var builder = new SqlConnectionStringBuilder
-        {
+        var builder = new SqlConnectionStringBuilder {
           DataSource = dataSource,
           UserID = userId,
           Password = password,
           InitialCatalog = initialCatalog
         };
-        using (var connection = new SqlConnection(builder.ConnectionString))
-        {
+        using (var connection = new SqlConnection(builder.ConnectionString)) {
           Console.WriteLine("\nQuerying data:");
           Console.WriteLine("=========================================\n");
           connection.Open();
           var sb = new StringBuilder();
-          foreach (var s in this.Script)
-          {
+          foreach (var s in Script) {
             sb.Append("\n");
             sb.Append(s);
           }
 
           var sql = sb.ToString();
-          using (var command = new SqlCommand(sql, connection))
-          {
-            using (var reader = command.ExecuteReader())
-            {
-              while (reader.Read())
-              {
+          using (var command = new SqlCommand(sql, connection)) {
+            using (var reader = command.ExecuteReader()) {
+              while (reader.Read()) {
                 var meetingRoomId = reader.IsDBNull(0) ? "" : reader.GetString(0);
                 var meetingTitle = reader.IsDBNull(1) ? "" : reader.GetString(1);
                 var meetingDescription = reader.IsDBNull(2) ? "" : reader.GetString(2);
@@ -75,8 +65,7 @@ namespace BezettingsmonitorFtpUpload.api
           }
         }
       }
-      catch (SqlException e)
-      {
+      catch (SqlException e) {
         Console.WriteLine(e.ToString());
       }
 
