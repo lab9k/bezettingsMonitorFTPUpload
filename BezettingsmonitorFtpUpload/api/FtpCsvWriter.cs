@@ -16,15 +16,15 @@ namespace BezettingsmonitorFtpUpload.api
 
       var connectionInfo =
         new ConnectionInfo(host, port, username, new PasswordAuthenticationMethod(username, password));
-      
+
       using (var sftp = new SftpClient(connectionInfo)) {
         sftp.Connect();
-        
+
         if (sftp.IsConnected) {
           Console.WriteLine("Connected to sftp.");
           var text = string.Join("\n", lines);
           var buffer = Encoding.UTF8.GetBytes(text);
-          sftp.UploadFile(new MemoryStream(buffer), "/data/flexwhere-meetings.csv", true);
+          sftp.UploadFile(new MemoryStream(buffer), "flexwhere-meetings.csv", true);
           sftp.Disconnect();
         }
       }
